@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 
-
+/*
 resource "aws_vpc" "test" {
   cidr_block = "10.0.0.0/16"
   tags = {
@@ -65,7 +65,7 @@ resource "aws_route_table_association" "PublicB" {
 
 
 resource "aws_security_group" "ALB_sg" {
-  name        = "ALB_sg"
+  name        = "ALB-sg"
   description = "Security group for ALB"
   vpc_id      = aws_vpc.test.id
 
@@ -86,7 +86,7 @@ resource "aws_security_group" "ALB_sg" {
 
 
 resource "aws_security_group" "EC2_sg" {
-  name        = "EC2_sg"
+  name        = "EC2-sg"
   description = "Security group for EC2 instances"
   vpc_id      = aws_vpc.test.id
 
@@ -143,7 +143,7 @@ data "aws_ami" "web" {
 
 #或者 預先做成客製化 AMI  並將上面的 owners=["self"]  （較快）
 
-resource "aws_launch_template" "web-lt" {
+resource "aws_launch_template" "web_lt" {
   name          = "web-launch-template-lt"
   image_id      = data.aws_ami.web.id
   instance_type = "t2.micro"
@@ -165,7 +165,7 @@ resource "aws_launch_template" "web-lt" {
 #launch_template 名稱,ami,機器型號,security group,開啟跑的 data (如果 docker build image 應該不用),tag name
 
 
-resource "aws_autoscaling_group" "web-asg" {
+resource "aws_autoscaling_group" "web_asg" {
   desired_capacity     = 2
   max_size             = 4
   min_size             = 2
@@ -175,7 +175,7 @@ resource "aws_autoscaling_group" "web-asg" {
   health_check_grace_period = 300
 
   launch_template {
-    id      = aws_launch_template.web-lt.id
+    id      = aws_launch_template.web_lt.id
     version = "$Latest" #看需不需要搭配 instance_refresh 來使用最新的 launch_template,暫時先不動,原因也沒新版（？
   }
 
@@ -190,7 +190,7 @@ resource "aws_autoscaling_group" "web-asg" {
 # When using ELB as the health_check_type, health_check_grace_period is required.
 # 簡單說沒有 load balancer 選 ec2 有就選 elb
 
-resource "aws_lb" "web-alb" {
+resource "aws_lb" "web_alb" {
   name               = "web-alb"
   internal           = false 
   #if ture, it will be a internal load balancer, if false, it will be a internet facing load balancer
@@ -208,7 +208,7 @@ resource "aws_lb" "web-alb" {
 
 # alb name,internal ,load_balancer_type,security group,subnet,tag name 
 
-resource "aws_lb_target_group" "web-tg" {
+resource "aws_lb_target_group" "web_tg" {
   name     = "web-tg"
   port     = 80
   protocol = "HTTP"
@@ -233,7 +233,7 @@ resource "aws_lb_target_group" "web-tg" {
 
 
 resource "aws_lb_listener" "web_listener" {
-  load_balancer_arn = aws_lb.web-alb.arn
+  load_balancer_arn = aws_lb.web_alb.arn
   port              = 80
   protocol          = "HTTP"
 
@@ -249,7 +249,7 @@ resource "aws_lb_listener" "web_listener" {
 #        weight = 10  # 10% 流量去新版試水溫
 #        }
 #    }
-    target_group_arn = aws_lb_target_group.web-tg.arn
+    target_group_arn = aws_lb_target_group.web_tg.arn
   }
 
 }   
@@ -269,7 +269,7 @@ resource "aws_autoscaling_attachment" "asg_attachment" {
 
 
 
-
+*/
 
 
 #####################################還沒寫

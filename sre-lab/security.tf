@@ -1,6 +1,6 @@
 
 resource "aws_security_group" "ALB_sg" {
-  name        = "ALB_sg"
+  name        = "ALB-sg"
   description = "Security group for ALB"
   vpc_id      = aws_vpc.test.id
 
@@ -21,7 +21,7 @@ resource "aws_security_group" "ALB_sg" {
 
 
 resource "aws_security_group" "EC2_sg" {
-  name        = "EC2_sg"
+  name        = "EC2-sg"
   description = "Security group for EC2 instances"
   vpc_id      = aws_vpc.test.id
 

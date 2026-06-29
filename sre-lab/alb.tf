@@ -1,4 +1,4 @@
-resource "aws_lb" "web-alb" {
+resource "aws_lb" "web_alb" {
   name               = "web-alb"
   internal           = false 
   #if ture, it will be a internal load balancer, if false, it will be a internet facing load balancer
@@ -18,7 +18,7 @@ resource "aws_lb" "web-alb" {
 
 # alb name,internal ,load_balancer_type,security group,subnet,tag name 
 
-resource "aws_lb_target_group" "web-tg" {
+resource "aws_lb_target_group" "web_tg" {
   name     = "web-tg"
   port     = 80
   protocol = "HTTP"
@@ -43,7 +43,7 @@ resource "aws_lb_target_group" "web-tg" {
 
 
 resource "aws_lb_listener" "web_listener" {
-  load_balancer_arn = aws_lb.web-alb.arn
+  load_balancer_arn = aws_lb.web_alb.arn
   port              = 80
   protocol          = "HTTP"
 
@@ -59,7 +59,7 @@ resource "aws_lb_listener" "web_listener" {
 #        weight = 10  # 10% 流量去新版試水溫
 #        }
 #    }
-    target_group_arn = aws_lb_target_group.web-tg.arn
+    target_group_arn = aws_lb_target_group.web_tg.arn
   }
 
 }   

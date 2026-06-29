@@ -32,7 +32,7 @@ data "aws_ami" "web" {
 
 #或者 預先做成客製化 AMI  並將上面的 owners=["self"]  （較快）
 
-resource "aws_launch_template" "web-lt" {
+resource "aws_launch_template" "web_lt" {
   name          = "web-launch-template-lt"
   image_id      = data.aws_ami.web.id
   instance_type = "t2.micro"
@@ -54,7 +54,7 @@ resource "aws_launch_template" "web-lt" {
 #launch_template 名稱,ami,機器型號,security group,開啟跑的 data (如果 docker build image 應該不用),tag name
 
 
-resource "aws_autoscaling_group" "web-asg" {
+resource "aws_autoscaling_group" "web_asg" {
   desired_capacity     = 2
   max_size             = 4
   min_size             = 2
@@ -64,7 +64,7 @@ resource "aws_autoscaling_group" "web-asg" {
   health_check_grace_period = 300
 
   launch_template {
-    id      = aws_launch_template.web-lt.id
+    id      = aws_launch_template.web_lt.id
     version = "$Latest" #看需不需要搭配 instance_refresh 來使用最新的 launch_template,暫時先不動,原因也沒新版（？
   }
 
