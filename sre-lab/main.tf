@@ -268,12 +268,36 @@ resource "aws_autoscaling_attachment" "asg_attachment" {
 #lb_target_group_arn- （可選）負載平衡器目標群組的 ARN。
 
 
+output "alb_public_dns" {
+  value       = aws_lb.web_alb.dns_name
+  description = "直接用這個網址在瀏覽器打開測試"
+}
+
+
+
+# 因為沒有買 domain 所以不用特別設定 route 53, alb internal 有設定外網,可以直接拿 alb 產出的 name 做測試
+/*
+resource "aws_route53_record" "web_dns" {
+  zone_id = data.aws_route53_zone.main.zone_id
+
+
+  name    = XXX.com.tw #填寫買的 domain ,因為沒有 hosted zones ,所以沒有辦法榜 route 53
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.web_alb.dns_name
+    zone_id                = aws_lb.web_alb.zone_id
+    evaluate_target_health = true
+  }
+}
+
+
+
 
 */
 
 
 #####################################還沒寫
-# alb -> route 53 使用
 # monitoring  => 寫規則監控 ALB
 # readme    => 寫架構,使用,測試,故障演練,清理,已知限制 （待確認，不太確定
 # 完成後將所有的 resource 都改用 module 呈現
