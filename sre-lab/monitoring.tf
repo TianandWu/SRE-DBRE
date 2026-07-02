@@ -47,15 +47,13 @@ resource "aws_autoscaling_policy" "cpu_tracking" {
   name                   = "cpu-target-tracking-policy"
   autoscaling_group_name = aws_autoscaling_group.web_asg.name
   policy_type            = "TargetTrackingScaling"
+  estimated_instance_warmup = 180 #warm 180s ,如果 image build 很慢，可能要調整這個時間，避免在 warm 期間就被判定為不健康而被移除
 
   target_tracking_configuration {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
-
-    target_value = 50.0
-
-    estimated_instance_warmup = 180
+    target_value = 70.0 # cpu 我認知 80 趴開始可能會造成機器執行變慢，所以給 70 以上在 on 起來應該還好，但這還是得看機群常態性維持 by autoscaling_group_name
   }
 }
 
